@@ -17,6 +17,12 @@ import UIKit
 
 final class ViewController: UIViewController {
     
+    private struct Constants {
+        static let cellId = "Cell"
+    }
+    
+    private let names: [String] = ["Name 1", "Name 2", "Name 3", "Name 4", "Name 5", "Name 6"]
+    
     // MARK: Private UI properties
     
     private let topContentView: TopContentView = {
@@ -26,11 +32,19 @@ final class ViewController: UIViewController {
         return view
     }()
     
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        return tableView
+    }()
+    
     // MARK: Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupTableView()
         
         // Задаем дефолтные данные
         topContentView.set(location: "Moscow", temperature: 21, condition: "")
@@ -46,6 +60,37 @@ final class ViewController: UIViewController {
         topContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         topContentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 34).isActive = true
         topContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        
+        view.addSubview(tableView)
+        tableView.topAnchor.constraint(equalTo: topContentView.bottomAnchor, constant: 40).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.heightAnchor.constraint(equalToConstant: 250).isActive = true
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellId)
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension ViewController: UITableViewDelegate {
+    
+}
+
+// MARK: - UITableViewDataSource
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return names.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellId, for: indexPath)
+        cell.textLabel?.text = names[indexPath.row]
+        
+        return cell
     }
 }
 
