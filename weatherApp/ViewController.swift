@@ -47,7 +47,6 @@ final class ViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .black
         view.addSubview(topContentView)
-        topContentView.translatesAutoresizingMaskIntoConstraints = false
         topContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: ConstantsView.topContentViewLeading).isActive = true
         topContentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: ConstantsView.topContentViewTop).isActive = true
         topContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: ConstantsView.topContentViewTrailing).isActive = true
